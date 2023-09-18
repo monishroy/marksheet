@@ -90,8 +90,8 @@ function Point($marks) {
     </style>
 
 </head>
-<!-- onload="window.print()" -->
-<body >
+
+<body onload="window.print()">
     <?php 
         $total = mysqli_num_rows($result);
         while($row = mysqli_fetch_assoc($result)){
