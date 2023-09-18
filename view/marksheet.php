@@ -5,6 +5,45 @@ require_once '../dbcon.php';
 $id = $_GET['user_id'];
 $result = mysqli_query($con, "SELECT * FROM `marksheets` WHERE `id` = '$id'");
 
+function Grate($marks) {
+    if ($marks > 100 ) {
+        return "Invalid";
+    } elseif ($marks >= 80 && $marks <= 100) {
+        return "A+";
+    } elseif ($marks >= 70 && $marks <= 79) {
+        return "A";
+    } elseif ($marks >= 60 && $marks <= 69)  {
+        return "A-";
+    } elseif ($marks >= 50 && $marks <= 59)  {
+        return "B";
+    } elseif ($marks >= 40 && $marks <= 49 ) {
+        return "C";
+    } elseif ($marks >= 33 && $marks <= 39 ) {
+        return "D";
+    }else {
+        return "F";
+    } 
+}
+
+function Point($marks) {
+    if ($marks > 100 ) {
+        return "Invalid";
+    } elseif ($marks >= 80 && $marks <= 100) {
+        return "5.00";
+    } elseif ($marks >= 70 && $marks <= 79) {
+        return "4.00";
+    } elseif ($marks >= 60 && $marks <= 69)  {
+        return "3.50";
+    } elseif ($marks >= 50 && $marks <= 59)  {
+        return "3.00";
+    } elseif ($marks >= 40 && $marks <= 49 ) {
+        return "2.00";
+    } elseif ($marks >= 33 && $marks <= 39 ) {
+        return "1.00";
+    }else {
+        return "0.00";
+    } 
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -62,10 +101,11 @@ $result = mysqli_query($con, "SELECT * FROM `marksheets` WHERE `id` = '$id'");
             <div class="data-info">
                 <table>
                     <tr>
-                        <th colspan="4">Student Marksheet <br><br>
-                    <?= ucwords($row['name']) ?><br><br>
-                    <?= $row['roll'] ?>
-                
+                        <th colspan="4">
+                            Student Marksheet <br><br>
+                            <?= ucwords($row['name']) ?><br><br>
+                            <?= $row['roll'] ?>
+                        </th>
                     </tr>
                     <tr>
                         <th>Subject</th>
@@ -76,158 +116,38 @@ $result = mysqli_query($con, "SELECT * FROM `marksheets` WHERE `id` = '$id'");
                     <tr>
                         <td>Bangla</td>
                         <td><?= $row['bangla'] ?></td>
-                        <td>
-                            <?php
-                            if ($row["bangla"] > 100 ) {
-                                echo "Invalid";
-                            } elseif ($row["bangla"] >= 80 && $row["bangla"] <= 100) {
-                                echo "A+";
-                            } elseif ($row["bangla"] >= 70 && $row["bangla"] <= 79) {
-                                echo "A";
-                            } elseif ($row["bangla"] >= 60 && $row["bangla"] <= 69)  {
-                                echo "A-";
-                            } elseif ($row["bangla"] >= 50 && $row["bangla"] <= 59)  {
-                                echo "B";
-                            } elseif ($row["bangla"] >= 40 && $row["bangla"] <= 49 ) {
-                                echo "C";
-                            } elseif ($row["bangla"] >= 33 && $row["bangla"] <= 39 ) {
-                                echo "D";
-                            }else {
-                                echo "F";
-                            } 
-                            ?>
-                        </td>
-                        <td></td>
+                        <td><?= Grate($row["bangla"]) ?></td>
+                        <td><?= Point($row["bangla"]) ?></td>
                     </tr>
                     <tr>
                         <td>English</td>
                         <td><?= $row['english'] ?></td>
-                        <td>
-                            <?php
-                            if ($row["english"] > 100 ) {
-                                echo "Invalid";
-                            } elseif ($row["english"] >= 80 && $row["english"] <= 100) {
-                                echo "A+";
-                            } elseif ($row["english"] >= 70 && $row["english"] <= 79) {
-                                echo "A";
-                            } elseif ($row["english"] >= 60 && $row["english"] <= 69)  {
-                                echo "A-";
-                            } elseif ($row["english"] >= 50 && $row["english"] <= 59)  {
-                                echo "B";
-                            } elseif ($row["english"] >= 40 && $row["english"] <= 49 ) {
-                                echo "C";
-                            } elseif ($row["english"] >= 33 && $row["english"] <= 39 ) {
-                                echo "D";
-                            }else {
-                                echo "F";
-                            } 
-                            ?>
-                        </td>
-                        <td></td>
+                        <td><?= Grate($row["english"]) ?></td>
+                        <td><?= Point($row["english"]) ?></td>
                     </tr>
                     <tr>
                         <td>Math</td>
                         <td><?= $row['math'] ?></td>
-                        <td>
-                            <?php
-                            if ($row["math"] > 100 ) {
-                                echo "Invalid";
-                            } elseif ($row["math"] >= 80 && $row["math"] <= 100) {
-                                echo "A+";
-                            } elseif ($row["math"] >= 70 && $row["math"] <= 79) {
-                                echo "A";
-                            } elseif ($row["math"] >= 60 && $row["math"] <= 69)  {
-                                echo "A-";
-                            } elseif ($row["math"] >= 50 && $row["math"] <= 59)  {
-                                echo "B";
-                            } elseif ($row["math"] >= 40 && $row["math"] <= 49 ) {
-                                echo "C";
-                            } elseif ($row["math"] >= 33 && $row["math"] <= 39 ) {
-                                echo "D";
-                            }else {
-                                echo "F";
-                            } 
-                            ?>
-                        </td>
-                        <td></td>
+                        <td><?= Grate($row["math"]) ?></td>
+                        <td><?= Point($row["math"]) ?></td>
                     </tr>
                     <tr>
                         <td>Physics</td>
                         <td><?= $row['physics'] ?></td>
-                        <td>
-                            <?php
-                            if ($row["physics"] > 100 ) {
-                                echo "Invalid";
-                            } elseif ($row["physics"] >= 80 && $row["physics"] <= 100) {
-                                echo "A+";
-                            } elseif ($row["physics"] >= 70 && $row["physics"] <= 79) {
-                                echo "A";
-                            } elseif ($row["physics"] >= 60 && $row["physics"] <= 69)  {
-                                echo "A-";
-                            } elseif ($row["physics"] >= 50 && $row["physics"] <= 59)  {
-                                echo "B";
-                            } elseif ($row["physics"] >= 40 && $row["physics"] <= 49 ) {
-                                echo "C";
-                            } elseif ($row["physics"] >= 33 && $row["physics"] <= 39 ) {
-                                echo "D";
-                            }else {
-                                echo "F";
-                            } 
-                            ?>
-                        </td>
-                        <td></td>
+                        <td><?= Grate($row["physics"]) ?></td>
+                        <td><?= Point($row["physics"]) ?></td>
                     </tr>
                     <tr>
                         <td>Chemistry</td>
                         <td><?= $row['chemistry'] ?></td>
-                        <td>
-                            <?php
-                            if ($row["chemistry"] > 100 ) {
-                                echo "Invalid";
-                            } elseif ($row["chemistry"] >= 80 && $row["chemistry"] <= 100) {
-                                echo "A+";
-                            } elseif ($row["chemistry"] >= 70 && $row["chemistry"] <= 79) {
-                                echo "A";
-                            } elseif ($row["chemistry"] >= 60 && $row["chemistry"] <= 69)  {
-                                echo "A-";
-                            } elseif ($row["chemistry"] >= 50 && $row["chemistry"] <= 59)  {
-                                echo "B";
-                            } elseif ($row["chemistry"] >= 40 && $row["chemistry"] <= 49 ) {
-                                echo "C";
-                            } elseif ($row["chemistry"] >= 33 && $row["chemistry"] <= 39 ) {
-                                echo "D";
-                            }else {
-                                echo "F";
-                            } 
-                            ?>
-                        </td>
-                        <td></td>
+                        <td><?= Grate($row["chemistry"]) ?></td>
+                        <td><?= Point($row["chemistry"]) ?></td>
                     </tr>
                     <tr>
                         <td>ICT</td>
                         <td><?= $row['ict'] ?></td>
-                        <td>
-                            <?php
-                            if ($row["ict"] > 100 ) {
-                                echo "Invalid";
-                            } elseif ($row["ict"] >= 80 && $row["ict"] <= 100) {
-                                echo "A+";
-                            } elseif ($row["ict"] >= 70 && $row["ict"] <= 79) {
-                                echo "A";
-                            } elseif ($row["ict"] >= 60 && $row["ict"] <= 69)  {
-                                echo "A-";
-                            } elseif ($row["ict"] >= 50 && $row["ict"] <= 59)  {
-                                echo "B";
-                            } elseif ($row["ict"] >= 40 && $row["ict"] <= 49 ) {
-                                echo "C";
-                            } elseif ($row["ict"] >= 33 && $row["ict"] <= 39 ) {
-                                echo "D";
-                            }else {
-                                echo "F";
-                            } 
-                            ?>
-                        </td>
-                        <td></td>
+                        <td><?= Grate($row["ict"]) ?></td>
+                        <td><?= Point($row["ict"]) ?></td>
                     </tr>
                 </table>
             </div>

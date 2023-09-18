@@ -23,7 +23,29 @@
                 <a href="./view/add_student.php" class="btn btn-sm btn-primary">Add Student</a>
             </div>
         </div>
+            
         <div class="card-body">
+            <?php
+            
+            if(isset($_SESSION['success'])){
+            ?>
+            <div class="alert alert-success alert-dismissible" role="alert">
+                <?= $_SESSION['success']; ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <?php
+            unset($_SESSION['success']);
+            }
+            if(isset($_SESSION['error'])){
+            ?>
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <?= $_SESSION['error']; ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <?php
+            unset($_SESSION['error']);
+            }
+            ?>
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -59,9 +81,9 @@
                                 ?>
                             </td>
                             <td>
-                                <a href="" class="fs-4 lh-4 text-mute"><i class='bx bx-edit-alt'></i></a>
+                                <a href="edit.php?user_edit=<?= $row['id'] ?>" class="fs-4 lh-4 text-mute"><i class='bx bx-edit-alt'></i></a>
                                 <a href="view/marksheet.php?user_id=<?= $row['id'] ?>" class="fs-4 lh-4 text-mute"><i class='bx bx-show'></i></a>
-                                <a href="" class="fs-4 lh-4 text-danger"><i class='bx bx-trash'></i></a>
+                                <a href="update.php?user_delete=<?= $row['id'] ?>" class="fs-4 lh-4 text-danger"><i class='bx bx-trash'></i></a>
                             </td>
                         </tr>
                         <?php
