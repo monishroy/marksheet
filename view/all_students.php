@@ -82,7 +82,7 @@
                             </td>
                             <td>
                                 <a href="edit.php?user_edit=<?= $row['id'] ?>" class="fs-4 lh-4 text-mute"><i class='bx bx-edit-alt'></i></a>
-                                <a href="view/marksheet.php?user_id=<?= $row['id'] ?>" class="fs-4 lh-4 text-mute"><i class='bx bx-show'></i></a>
+                                <a target="_blank" href="view/marksheet.php?user_id=<?= $row['id'] ?>" class="fs-4 lh-4 text-mute"><i class='bx bx-show'></i></a>
                                 <a href="update.php?user_delete=<?= $row['id'] ?>" class="fs-4 lh-4 text-danger"><i class='bx bx-trash'></i></a>
                             </td>
                         </tr>

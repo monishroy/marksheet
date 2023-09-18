@@ -29,21 +29,23 @@ function Point($marks) {
     if ($marks > 100 ) {
         return "Invalid";
     } elseif ($marks >= 80 && $marks <= 100) {
-        return "5.00";
+        return 5.00;
     } elseif ($marks >= 70 && $marks <= 79) {
-        return "4.00";
+        return 4.00;
     } elseif ($marks >= 60 && $marks <= 69)  {
-        return "3.50";
+        return 3.50;
     } elseif ($marks >= 50 && $marks <= 59)  {
-        return "3.00";
+        return 3.00;
     } elseif ($marks >= 40 && $marks <= 49 ) {
-        return "2.00";
+        return 2.00;
     } elseif ($marks >= 33 && $marks <= 39 ) {
-        return "1.00";
+        return 1.00;
     }else {
-        return "0.00";
+        return 0.00;
     } 
 }
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -86,6 +88,7 @@ function Point($marks) {
             border: 1px solid #555;
             padding: 4px;
             line-height: 1em;
+            text-align: center;
         }
     </style>
 
@@ -148,6 +151,17 @@ function Point($marks) {
                         <td><?= $row['ict'] ?></td>
                         <td><?= Grate($row["ict"]) ?></td>
                         <td><?= Point($row["ict"]) ?></td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"></td>
+                        <td >
+                        GPA : 
+                        <?php
+                        $total = Point($row["bangla"])+Point($row["english"])+Point($row["math"])+Point($row["physics"])+Point($row["chemistry"])+ Point($row["ict"]);
+                        
+                        echo $gpa = $total/6;
+                        ?>
+                        </td>
                     </tr>
                 </table>
             </div>
