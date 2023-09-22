@@ -29,19 +29,19 @@ function Point($marks) {
     if ($marks > 100 ) {
         return "Invalid";
     } elseif ($marks >= 80 && $marks <= 100) {
-        return 5.00;
+        return "5.00";
     } elseif ($marks >= 70 && $marks <= 79) {
-        return 4.00;
+        return "4.00";
     } elseif ($marks >= 60 && $marks <= 69)  {
-        return 3.50;
+        return "3.50";
     } elseif ($marks >= 50 && $marks <= 59)  {
-        return 3.00;
+        return "3.00";
     } elseif ($marks >= 40 && $marks <= 49 ) {
-        return 2.00;
+        return "2.00";
     } elseif ($marks >= 33 && $marks <= 39 ) {
-        return 1.00;
+        return "1.00";
     }else {
-        return 0.00;
+        return "0.00";
     } 
 }
 
@@ -157,9 +157,12 @@ function Point($marks) {
                         <td >
                         GPA : 
                         <?php
-                        $total = Point($row["bangla"])+Point($row["english"])+Point($row["math"])+Point($row["physics"])+Point($row["chemistry"])+ Point($row["ict"]);
-                        
-                        echo $gpa = $total/6;
+                        if(Point($row["bangla"]) == 0 || Point($row["english"]) == 0 || Point($row["math"]) == 0 || Point($row["physics"]) == 0 || Point($row["chemistry"]) == 0 || Point($row["ict"]) == 0){
+                            echo "F";
+                        }else{
+                            $total = Point($row["bangla"])+Point($row["english"])+Point($row["math"])+Point($row["physics"])+Point($row["chemistry"])+ Point($row["ict"]);
+                            echo $gpa = $total/6;
+                        }
                         ?>
                         </td>
                     </tr>

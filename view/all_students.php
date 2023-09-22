@@ -1,4 +1,28 @@
 
+<?php
+
+if(isset($_REQUEST['session_submit'])){
+    $session = trim($_REQUEST['session']);
+
+    if(!empty($session)){
+        $result = mysqli_query($con, "INSERT INTO `session`(`name`) VALUES ('$session')");
+        if($result){
+            $_SESSION['success'] = "Session Add Successfully";
+            header("location: index.php");
+            exit(0);
+        }else{
+            $_SESSION['error'] = "Session Not Saved.!";
+            header("location: index.php");
+            exit(0);
+        }
+    }else{
+        $_SESSION['error'] = "Fild is required.!";
+        header("location: index.php");
+        exit(0);
+    }
+}
+
+?>
 <!doctype html>
 <html lang="en">
 
@@ -15,15 +39,43 @@
 </head>
 
 <body>
-  <div class="conteiner">
+  <div class="conteiner mt-4">
     <div class="card col-md-6 mx-auto">
         <div class="card-header">
             <div class="d-flex justify-content-between">
                 <h4>All Students</h4>
+                <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-sm btn-primary">Add Session</a>
                 <a href="./view/add_student.php" class="btn btn-sm btn-primary">Add Student</a>
             </div>
         </div>
-            
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="" method="post">
+                    <div class="modal-body">
+                        <div class="mb-2">
+                            <label for="">Session</label>
+                            <input type="text" class="form-control" name="session" placeholder="Enter Session" value="<?= isset($session) ? $session:'' ?>"  required>
+                            <?php 
+                            if(isset($input_errors['session'])){
+                                echo '<span class="text-danger" >'.$input_errors['session'].'</span>';
+                            }
+                            ?>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" name="session_submit" class="btn btn-primary">Save</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
         <div class="card-body">
             <?php
             
@@ -52,13 +104,14 @@
                         <th scope="col">#</th>
                         <th scope="col">Name</th>
                         <th scope="col">Roll</th>
+                        <th scope="col">Session</th>
                         <th scope="col">Status</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
-                        $result = mysqli_query($con, "SELECT * FROM `marksheets`");
+                        $result = mysqli_query($con, "SELECT m.*, s.`name` AS sname FROM `marksheets` m,session s WHERE s.`id` = m.`session_id`");
                         $sl = 0;
                         while($row = mysqli_fetch_assoc($result)){
                         $sl++;
@@ -67,6 +120,7 @@
                             <th scope="row"><?= $sl ?></th>
                             <td><?= $row['name'] ?></td>
                             <td><?= $row['roll'] ?></td>
+                            <td><?= $row['sname'] ?></td>
                             <td>
                                 <?php
                                 if($row['status'] == 1){

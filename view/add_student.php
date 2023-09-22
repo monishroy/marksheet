@@ -6,6 +6,7 @@ if(isset($_REQUEST['add_student'])){
 
     $name = trim($_REQUEST['name']);
     $roll = trim($_REQUEST['roll']);
+    $session_id = $_REQUEST['session_id'];
     $bangla = $_REQUEST['bangla'];
     $english = $_REQUEST['english'];
     $math = $_REQUEST['math'];
@@ -17,27 +18,27 @@ if(isset($_REQUEST['add_student'])){
 
     $input_errors = array();
 
-    if($bangla > 100) {
+    if($bangla > 100 || $bangla < 0) {
         $input_errors['bangla'] = "Bangla mark invalid!";
     }
 
-    if($english > 100) {
+    if($english > 100 || $english < 0) {
         $input_errors['english'] = "English mark invalid!";
     }
 
-    if($math > 100) {
+    if($math > 100 || $math < 0) {
         $input_errors['math'] = "Math mark invalid!";
     }
 
-    if($physics > 100) {
+    if($physics > 100 || $physics < 0) {
       $input_errors['physics'] = "Physics mark invalid!";
     }
 
-    if($chemistry > 100) {
+    if($chemistry > 100 || $chemistry < 0) {
         $input_errors['chemistry'] = "Chemistry mark invalid!";
     }
 
-    if($ict > 100) {
+    if($ict > 100 || $ict < 0) {
         $input_errors['ict'] = "ICT mark invalid!";
     }
 
@@ -47,14 +48,14 @@ if(isset($_REQUEST['add_student'])){
         $roll_check_row = mysqli_num_rows($roll_check);
     
         if($roll_check_row == 0) {
-            $result = mysqli_query($con, "INSERT INTO `marksheets`(`name`, `roll`, `bangla`, `english`, `math`, `physics`, `chemistry`, `ict`) VALUES ('$name','$roll','$bangla','$english','$math','$physics','$chemistry','$ict')");
+            $result = mysqli_query($con, "INSERT INTO `marksheets`(`name`, `roll`, `session_id`, `bangla`, `english`, `math`, `physics`, `chemistry`, `ict`) VALUES ('$name','$roll','$session_id','$bangla','$english','$math','$physics','$chemistry','$ict')");
     
             if($result){
                 $_SESSION['success'] = "Student Add Successfully";
                 header("location: add_student.php");
                 exit(0);
             }else{
-                $_SESSION['error'] = "Data Not Saved.!";
+                $_SESSION['error'] = "Student Not Saved.!";
                 header("location: add_student.php");
                 exit(0);
             }
@@ -116,14 +117,27 @@ if(isset($_REQUEST['add_student'])){
             }
             ?>
             <div class="row ">
-                <div class="col-6 mb-2">
+                <div class="col-4 mb-2">
                     <label for="">Name</label>
                     <input type="text" class="form-control" name="name" placeholder="Enter name" aria-label="First name" value="<?= isset($name) ? $name:'' ?>" required>
                     
                 </div>
-                <div class="col-6 mb-2">
+                <div class="col-4 mb-2">
                     <label for="">Roll</label>
                     <input type="text" class="form-control" name="roll" placeholder="Enter Roll" aria-label="Last name" value="<?= isset($roll) ? $roll:'' ?>"  required>
+                </div>
+                <div class="col-4 mb-2">
+                    <label for="">Session</label>
+                    <select class="form-control" name="session_id" id="">
+                    <?php
+                    $result = mysqli_query($con, "SELECT * FROM `session`");
+                    while($row = mysqli_fetch_assoc($result)){
+                        ?>
+                        <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
+                        <?php
+                    }
+                    ?>
+                    </select>
                 </div>
                 <div class="col-6 mb-2">
                     <label for="">Bangla</label>
